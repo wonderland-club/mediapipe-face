@@ -28,7 +28,7 @@ const FaceLandmarkerComponent = () => {
           runningMode: "VIDEO",
           numFaces: 1,
           outputFaceBlendshapes: true,
-          outputFacialTransformationMatrixes: true,
+          outputFaceTransformationMatrixes: true,
         });
         console.log("FaceLandmarker 模型加载完成！");
       } catch (error) {

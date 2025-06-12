@@ -2,7 +2,12 @@ import React, { useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import { FaceLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
 import {
+  FACEMESH_TESSELATION,
   FACEMESH_FACE_OVAL,
+  FACEMESH_LEFT_EYE,
+  FACEMESH_LEFT_EYEBROW,
+  FACEMESH_RIGHT_EYE,
+  FACEMESH_RIGHT_EYEBROW,
   FACEMESH_LIPS,
 } from "../utils/faceMeshConnections";
 import { analyzeAndDrawEmotion } from "./FaceEmotionAnalyzer";
@@ -71,40 +76,31 @@ const FaceLandmarkerComponent = () => {
 
           if (results.faceLandmarks && results.faceLandmarks.length > 0) {
             results.faceLandmarks.forEach((landmarks) => {
-              // 面部轮廓 - 白色
-              ctx.strokeStyle = "rgba(255,255,255,0.7)";
-              ctx.lineWidth = 2;
-              FACEMESH_FACE_OVAL.forEach(([i, j]) => {
-                const pointA = landmarks[i];
-                const pointB = landmarks[j];
-                if (pointA && pointB) {
-                  const xA = pointA.x * videoWidth;
-                  const yA = pointA.y * videoHeight;
-                  const xB = pointB.x * videoWidth;
-                  const yB = pointB.y * videoHeight;
-                  ctx.beginPath();
-                  ctx.moveTo(xA, yA);
-                  ctx.lineTo(xB, yB);
-                  ctx.stroke();
-                }
-              });
+              const drawConnections = (pairs, color, width = 1) => {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = width;
+                pairs.forEach(([i, j]) => {
+                  const a = landmarks[i];
+                  const b = landmarks[j];
+                  if (a && b) {
+                    ctx.beginPath();
+                    ctx.moveTo(a.x * videoWidth, a.y * videoHeight);
+                    ctx.lineTo(b.x * videoWidth, b.y * videoHeight);
+                    ctx.stroke();
+                  }
+                });
+              };
 
-              // 嘴唇 - 粉色
-              ctx.strokeStyle = "rgba(255,105,180,0.7)";
-              FACEMESH_LIPS.forEach(([i, j]) => {
-                const pointA = landmarks[i];
-                const pointB = landmarks[j];
-                if (pointA && pointB) {
-                  const xA = pointA.x * videoWidth;
-                  const yA = pointA.y * videoHeight;
-                  const xB = pointB.x * videoWidth;
-                  const yB = pointB.y * videoHeight;
-                  ctx.beginPath();
-                  ctx.moveTo(xA, yA);
-                  ctx.lineTo(xB, yB);
-                  ctx.stroke();
-                }
-              });
+              // 绘制网格连线
+              drawConnections(FACEMESH_TESSELATION, "rgba(0,255,0,0.5)");
+
+              // 其他关键区域
+              drawConnections(FACEMESH_RIGHT_EYE, "rgba(0,255,255,0.8)", 2);
+              drawConnections(FACEMESH_RIGHT_EYEBROW, "rgba(0,255,255,0.8)", 2);
+              drawConnections(FACEMESH_LEFT_EYE, "rgba(0,255,255,0.8)", 2);
+              drawConnections(FACEMESH_LEFT_EYEBROW, "rgba(0,255,255,0.8)", 2);
+              drawConnections(FACEMESH_FACE_OVAL, "rgba(255,255,255,0.7)", 2);
+              drawConnections(FACEMESH_LIPS, "rgba(255,105,180,0.7)", 2);
 
               // 3. 绘制所有特征点（便于观察）
               landmarks.forEach((landmark) => {

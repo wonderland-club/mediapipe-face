@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import { FaceLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
 import {
-  FACEMESH_TESSELATION,
+  FACEMESH_TESSELLATION,
   FACEMESH_FACE_OVAL,
   FACEMESH_LEFT_EYE,
   FACEMESH_LEFT_EYEBROW,
@@ -90,7 +90,7 @@ const FaceLandmarkerComponent = () => {
               };
 
               // 绘制网格连线
-              drawConnections(FACEMESH_TESSELATION, "rgba(0,255,0,0.5)");
+              drawConnections(FACEMESH_TESSELLATION, "rgba(0,255,0,0.5)");
 
               // 其他关键区域
               drawConnections(FACEMESH_RIGHT_EYE, "rgba(0,255,255,0.8)", 2);

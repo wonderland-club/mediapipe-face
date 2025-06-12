@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import {
-  FACEMESH_TESSELLATION,
+  FACEMESH_TESSELATION,
   FACEMESH_FACE_OVAL,
   FACEMESH_LEFT_EYE,
   FACEMESH_LEFT_EYEBROW,
@@ -54,7 +54,7 @@ const useVideoProcessor = (webcamRef, canvasRef, faceLandmarkerRef) => {
                 });
               };
 
-              drawConnections(FACEMESH_TESSELLATION, "rgba(0,255,0,0.5)");
+              drawConnections(FACEMESH_TESSELATION, "rgba(0,255,0,0.5)");
               drawConnections(FACEMESH_RIGHT_EYE, "rgba(0,255,255,0.8)", 2);
               drawConnections(FACEMESH_RIGHT_EYEBROW, "rgba(0,255,255,0.8)", 2);
               drawConnections(FACEMESH_LEFT_EYE, "rgba(0,255,255,0.8)", 2);

@@ -10,8 +10,6 @@ import {
   FACEMESH_RIGHT_EYEBROW,
   FACEMESH_LIPS,
 } from "../utils/faceMeshConnections";
-import { analyzeAndDrawEmotion } from "./FaceEmotionAnalyzer";
-import { detectEyeBlink } from "./EyeBlinkDetector";
 
 const FaceLandmarkerComponent = () => {
   const webcamRef = useRef(null);
@@ -112,11 +110,6 @@ const FaceLandmarkerComponent = () => {
                 ctx.fill();
               });
               
-              // 调用表情分析函数
-              analyzeAndDrawEmotion(landmarks, videoWidth, videoHeight, ctx);
-              
-              // 调用眼睛闭合检测函数
-              detectEyeBlink(landmarks, videoWidth, videoHeight, ctx);
             });
           } else {
             // 如果没有检测到人脸，显示提示信息
@@ -150,12 +143,6 @@ const FaceLandmarkerComponent = () => {
         overflow: "hidden",
       }}
     >
-      <div style={{ position: "absolute", top: 10, left: 10, zIndex: 5, backgroundColor: "rgba(0,0,0,0.5)", padding: "5px 10px", borderRadius: "5px", color: "white" }}>
-        <h3 style={{ margin: "5px 0" }}>表情分析</h3>
-      </div>
-      <div style={{ position: "absolute", top: 10, right: 10, zIndex: 5, backgroundColor: "rgba(0,0,0,0.5)", padding: "5px 10px", borderRadius: "5px", color: "white" }}>
-        <h3 style={{ margin: "5px 0" }}>眼睛闭合检测</h3>
-      </div>
       <Webcam
         audio={false}
         ref={webcamRef}
